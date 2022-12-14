@@ -46,10 +46,8 @@ public class MainController {
         gameGuide.put(ApplicationStatus.GAME_START, this::startGame);
         gameGuide.put(ApplicationStatus.ROUND_END, this::endRound);
         gameGuide.put(ApplicationStatus.GAME_SUCCESS, this::handleGameSuccess);
-        gameGuide.put(ApplicationStatus.RESTART_GAME,this::restartGame);
+        gameGuide.put(ApplicationStatus.RESTART_GAME, this::restartGame);
     }
-
-
 
 
     private ApplicationStatus createBridge() {
@@ -96,9 +94,11 @@ public class MainController {
     }
 
     private ApplicationStatus restartGame() {
-
-        return null;
+        gameVariable.addAttempts();
+        gameVariable.resetDiagrams();
+        return ApplicationStatus.GAME_START;
     }
+
     private ApplicationStatus handleGameSuccess() {
         return ApplicationStatus.APPLICATION_EXIT;
     }

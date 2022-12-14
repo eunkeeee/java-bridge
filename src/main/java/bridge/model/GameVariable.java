@@ -19,10 +19,15 @@ public class GameVariable {
         diagram.updateDiagram(bridgeSign, roundStatus);
     }
 
-    public void printDiagrams(){
+    public void printDiagrams() {
         System.out.println(diagram);
     }
+
     public void setIsSuccessInGame() {
         isSuccessInGame = true;
+    }
+
+    public void resetDiagrams() {
+        diagram = new Diagram();
     }
 }
