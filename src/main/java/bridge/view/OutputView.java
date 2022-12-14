@@ -6,10 +6,15 @@ package bridge.view;
 public class OutputView {
     private static final OutputView instance = new OutputView();
 
-    public static OutputView getInstance(){
+    public static OutputView getInstance() {
         return instance;
     }
+
     private OutputView() {
+    }
+
+    public void printGameStart() {
+        System.out.println(Message.OUTPUT_GAME_START.message);
     }
 
     public void printExceptionMessage(Exception exception) {
@@ -33,7 +38,7 @@ public class OutputView {
     }
 
     private enum Message {
-        OUTPUT_GAME_START("게임을 시작합니다.");
+        OUTPUT_GAME_START("다리 건너기 게임을 시작합니다.\n");
 
         private final String message;
 

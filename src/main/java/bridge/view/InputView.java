@@ -22,9 +22,10 @@ public class InputView {
      */
     public int readBridgeSize() {
         try {
-            String input = Util.removeSpace(Console.readLine());
-            new BridgeSizeValidator().validate(input);
-            return Integer.parseInt(input);
+            System.out.println(Message.INPUT_BRIDGE_SIZE.message);
+            String bridgeSize = Util.removeSpace(Console.readLine());
+            new BridgeSizeValidator().validate(bridgeSize);
+            return Integer.parseInt(bridgeSize);
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
             return readBridgeSize();
@@ -46,7 +47,7 @@ public class InputView {
     }
 
     private enum Message {
-        INPUT_BUDGET("구입금액을 입력해 주세요.");
+        INPUT_BRIDGE_SIZE("다리의 길이를 입력해주세요.");
 
         private final String message;
 

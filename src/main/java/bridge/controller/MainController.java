@@ -1,5 +1,7 @@
 package bridge.controller;
 
+import bridge.BridgeMaker;
+import bridge.BridgeRandomNumberGenerator;
 import bridge.view.InputView;
 import bridge.view.OutputView;
 import java.util.EnumMap;
@@ -9,13 +11,13 @@ import java.util.function.Supplier;
 public class MainController {
     private final InputView inputView;
     private final OutputView outputView;
-    private final Map<ApplicationStatus, Supplier<ApplicationStatus>> controllers;
+    private final Map<ApplicationStatus, Supplier<ApplicationStatus>> gameGuide;
 
     public MainController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.controllers = new EnumMap<>(ApplicationStatus.class);
-        initializeControllers();
+        this.gameGuide = new EnumMap<>(ApplicationStatus.class);
+        initializeGameGuide();
     }
 
     public void service() {
@@ -26,20 +28,32 @@ public class MainController {
     }
 
     public ApplicationStatus progress(ApplicationStatus applicationStatus) {
-        return controllers.get(applicationStatus).get();
+        try {
+            return gameGuide.get(applicationStatus).get();
+        } catch (NullPointerException exception) {
+            return ApplicationStatus.APPLICATION_EXIT;
+        }
     }
 
-    private void initializeControllers() {
-        controllers.put(ApplicationStatus.CREATE_BRIDGE, this::createBridge);
+    private void initializeGameGuide() {
+        gameGuide.put(ApplicationStatus.CREATE_BRIDGE, this::createBridge);
+        gameGuide.put(ApplicationStatus.GAME_START, this::startGame);
     }
-
 
     private ApplicationStatus createBridge() {
+        outputView.printGameStart();
         int bridgeSize = inputView.readBridgeSize();
-        System.out.println(bridgeSize);
+
+        BridgeMaker bridgeMaker = new BridgeMaker(new BridgeRandomNumberGenerator());
+        bridgeMaker.makeBridge(bridgeSize);
 
         return ApplicationStatus.GAME_START;
     }
+
+    private ApplicationStatus startGame() {
+        return ApplicationStatus.APPLICATION_EXIT;
+    }
+
 
     private enum ApplicationStatus {
         CREATE_BRIDGE,

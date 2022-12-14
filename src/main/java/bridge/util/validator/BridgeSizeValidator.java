@@ -5,5 +5,6 @@ public class BridgeSizeValidator extends Validator {
     public void validate(String input) throws IllegalArgumentException {
         validateNumeric(input);
         validateRange(input);
+        validateRange(input);
     }
 }
