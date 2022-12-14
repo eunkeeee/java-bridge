@@ -26,15 +26,7 @@ public class MainController {
     }
 
     public ApplicationStatus progress(ApplicationStatus applicationStatus) {
-        try {
-            return controllers.get(applicationStatus).get();
-        } catch (IllegalArgumentException exception) {
-            outputView.printExceptionMessage(exception);
-            return applicationStatus;
-        } catch (NullPointerException exception) {
-            outputView.printExceptionMessage(exception);
-            return null;
-        }
+        return controllers.get(applicationStatus).get();
     }
 
     private void initializeControllers() {
