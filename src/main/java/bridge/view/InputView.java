@@ -1,10 +1,16 @@
-package bridge;
+package bridge.view;
 
 /**
  * 사용자로부터 입력을 받는 역할을 한다.
  */
 public class InputView {
+    private static final InputView instance = new InputView();
 
+    public static InputView getInstance(){
+        return instance;
+    }
+    private InputView() {
+    }
     /**
      * 다리의 길이를 입력받는다.
      */
@@ -24,5 +30,15 @@ public class InputView {
      */
     public String readGameCommand() {
         return null;
+    }
+
+    private enum Message {
+        INPUT_BUDGET("구입금액을 입력해 주세요.");
+
+        private final String message;
+
+        Message(String message) {
+            this.message = message;
+        }
     }
 }

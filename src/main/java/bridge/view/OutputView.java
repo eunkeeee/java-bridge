@@ -1,9 +1,20 @@
-package bridge;
+package bridge.view;
 
 /**
  * 사용자에게 게임 진행 상황과 결과를 출력하는 역할을 한다.
  */
 public class OutputView {
+    private static final OutputView instance = new OutputView();
+
+    public static OutputView getInstance(){
+        return instance;
+    }
+    private OutputView() {
+    }
+
+    public void printExceptionMessage(Exception exception) {
+        System.out.println(exception.getMessage());
+    }
 
     /**
      * 현재까지 이동한 다리의 상태를 정해진 형식에 맞춰 출력한다.
@@ -20,4 +31,15 @@ public class OutputView {
      */
     public void printResult() {
     }
+
+    private enum Message {
+        OUTPUT_GAME_START("게임을 시작합니다.");
+
+        private final String message;
+
+        Message(String message) {
+            this.message = message;
+        }
+    }
+
 }
