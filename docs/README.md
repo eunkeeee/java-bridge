@@ -13,9 +13,9 @@
 
 ### 게임 시작 `GAME_START`
 
-- [ ] 게임 설정 초기화 `INITIALIZE_GAME`
-    - [ ] 게임 성공 여부: 실패
-    - [ ] 총 시도 횟수: 1로 설정
+- [x] 게임 설정 초기화 `INITIALIZE_GAME`
+    - [x] 게임 성공 여부: 실패
+    - [x] 총 시도 횟수: 1로 설정
 
 ### `ROUND_START`
 

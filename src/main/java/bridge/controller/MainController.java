@@ -2,6 +2,8 @@ package bridge.controller;
 
 import bridge.BridgeMaker;
 import bridge.BridgeRandomNumberGenerator;
+import bridge.model.Bridge;
+import bridge.model.GameVariable;
 import bridge.view.InputView;
 import bridge.view.OutputView;
 import java.util.EnumMap;
@@ -12,6 +14,7 @@ public class MainController {
     private final InputView inputView;
     private final OutputView outputView;
     private final Map<ApplicationStatus, Supplier<ApplicationStatus>> gameGuide;
+    private GameVariable gameVariable;
 
     public MainController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
@@ -37,27 +40,33 @@ public class MainController {
 
     private void initializeGameGuide() {
         gameGuide.put(ApplicationStatus.CREATE_BRIDGE, this::createBridge);
+        gameGuide.put(ApplicationStatus.INITIALIZE_GAME, this::initializeGame);
         gameGuide.put(ApplicationStatus.GAME_START, this::startGame);
     }
 
     private ApplicationStatus createBridge() {
         outputView.printGameStart();
         int bridgeSize = inputView.readBridgeSize();
-
         BridgeMaker bridgeMaker = new BridgeMaker(new BridgeRandomNumberGenerator());
-        System.out.println(bridgeMaker.makeBridge(bridgeSize));
+        Bridge.setBridge(bridgeMaker.makeBridge(bridgeSize));
+        return ApplicationStatus.INITIALIZE_GAME;
+    }
+
+    private ApplicationStatus initializeGame() {
+        gameVariable = new GameVariable();
         return ApplicationStatus.GAME_START;
     }
 
     private ApplicationStatus startGame() {
+
         return ApplicationStatus.APPLICATION_EXIT;
     }
 
 
     private enum ApplicationStatus {
         CREATE_BRIDGE,
-        GAME_START,
         INITIALIZE_GAME,
+        GAME_START,
         ROUND_START,
         ROUND_CONTINUE,
         ROUND_END,
