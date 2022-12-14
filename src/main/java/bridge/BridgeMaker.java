@@ -1,6 +1,8 @@
 package bridge;
 
+import bridge.model.BridgeSign;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -19,7 +21,10 @@ public class BridgeMaker {
      * @return 입력받은 길이에 해당하는 다리 모양. 위 칸이면 "U", 아래 칸이면 "D"로 표현해야 한다.
      */
     public List<String> makeBridge(int size) {
-        IntStream.generate(bridgeNumberGenerator::generate).limit(size).forEach(System.out::println);
-        return null;
+        return IntStream
+                .generate(bridgeNumberGenerator::generate)
+                .limit(size)
+                .mapToObj(BridgeSign::numberToSign)
+                .collect(Collectors.toList());
     }
 }

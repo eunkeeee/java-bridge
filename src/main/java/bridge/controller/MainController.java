@@ -45,8 +45,7 @@ public class MainController {
         int bridgeSize = inputView.readBridgeSize();
 
         BridgeMaker bridgeMaker = new BridgeMaker(new BridgeRandomNumberGenerator());
-        bridgeMaker.makeBridge(bridgeSize);
-
+        System.out.println(bridgeMaker.makeBridge(bridgeSize));
         return ApplicationStatus.GAME_START;
     }
 
