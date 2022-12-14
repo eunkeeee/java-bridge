@@ -27,6 +27,13 @@ public class Bridge {
         return bridge.size();
     }
 
+    public static RoundStatus getRoundStatus(int index, BridgeSign bridgeSign) {
+        if (isRoundEnd(index, bridgeSign)) {
+            return RoundStatus.ROUND_END;
+        }
+        return RoundStatus.ROUND_CONTINUE;
+    }
+
     public static boolean isRoundEnd(int index, BridgeSign bridgeSign) {
         return bridgeSign != bridge.get(index);
     }

@@ -5,7 +5,7 @@ import bridge.BridgeRandomNumberGenerator;
 import bridge.model.Bridge;
 import bridge.model.BridgeSign;
 import bridge.model.GameVariable;
-import bridge.model.RoundStatus;
+import bridge.model.RestartCommand;
 import bridge.view.InputView;
 import bridge.view.OutputView;
 import java.util.EnumMap;
@@ -45,7 +45,11 @@ public class MainController {
         gameGuide.put(ApplicationStatus.INITIALIZE_GAME, this::initializeGame);
         gameGuide.put(ApplicationStatus.GAME_START, this::startGame);
         gameGuide.put(ApplicationStatus.ROUND_END, this::endRound);
+        gameGuide.put(ApplicationStatus.GAME_SUCCESS, this::handleGameSuccess);
+        gameGuide.put(ApplicationStatus.RESTART_GAME,this::restartGame);
     }
+
+
 
 
     private ApplicationStatus createBridge() {
@@ -67,18 +71,35 @@ public class MainController {
 
             // ROUND_START
             BridgeSign bridgeSign = inputView.readMoving();
+            gameVariable.updateDiagram(bridgeSign, Bridge.getRoundStatus(index, bridgeSign));
+            gameVariable.printDiagrams();
 
             if (Bridge.isRoundEnd(index, bridgeSign)) {
                 // ROUND_END
-                gameVariable.updateDiagram(bridgeSign, RoundStatus.ROUND_END);
-                gameVariable.printDiagrams();
                 return ApplicationStatus.ROUND_END;
             }
+
+            // ROUND_CONTINUE
+
         }
-        return ApplicationStatus.APPLICATION_EXIT;
+
+        return ApplicationStatus.GAME_SUCCESS;
     }
 
     private ApplicationStatus endRound() {
+        RestartCommand restartCommand = inputView.readGameCommand();
+        if (restartCommand.isQuitGame()) {
+            // 결과 출력
+            return ApplicationStatus.APPLICATION_EXIT;
+        }
+        return ApplicationStatus.RESTART_GAME;
+    }
+
+    private ApplicationStatus restartGame() {
+
+        return null;
+    }
+    private ApplicationStatus handleGameSuccess() {
         return ApplicationStatus.APPLICATION_EXIT;
     }
 
