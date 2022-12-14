@@ -22,7 +22,7 @@ public enum MainOption {
         return Arrays.stream(MainOption.values())
                 .filter(option -> option.command.equals(command))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException(ExceptionMessage.NO_MAIN_OPTION.getMessage()));
+                .orElseThrow(() -> new IllegalArgumentException());
     }
 
     //  NO_MAIN_OPTION("해당 메인 옵션이 존재하지 않습니다."),

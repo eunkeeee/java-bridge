@@ -1,21 +1,27 @@
 package bridge.view;
 
+import bridge.util.Util;
+import camp.nextstep.edu.missionutils.Console;
+
 /**
  * 사용자로부터 입력을 받는 역할을 한다.
  */
 public class InputView {
     private static final InputView instance = new InputView();
 
-    public static InputView getInstance(){
+    public static InputView getInstance() {
         return instance;
     }
+
     private InputView() {
     }
+
     /**
      * 다리의 길이를 입력받는다.
      */
     public int readBridgeSize() {
-        return 0;
+        String input = Util.removeSpace(Console.readLine());
+        return Integer.parseInt(input);
     }
 
     /**
