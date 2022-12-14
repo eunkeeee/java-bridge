@@ -5,6 +5,7 @@ import bridge.BridgeRandomNumberGenerator;
 import bridge.model.Bridge;
 import bridge.model.BridgeSign;
 import bridge.model.GameVariable;
+import bridge.model.RoundStatus;
 import bridge.view.InputView;
 import bridge.view.OutputView;
 import java.util.EnumMap;
@@ -63,16 +64,22 @@ public class MainController {
 
     private ApplicationStatus startGame() {
         for (int index = 0; index < Bridge.size(); index++) {
-            BridgeSign moving = inputView.readMoving();
-            if (Bridge.isRoundEnd(index, moving)) {
+
+            // ROUND_START
+            BridgeSign bridgeSign = inputView.readMoving();
+
+            if (Bridge.isRoundEnd(index, bridgeSign)) {
+                // ROUND_END
+                gameVariable.updateDiagram(bridgeSign, RoundStatus.ROUND_END);
+                gameVariable.printDiagrams();
                 return ApplicationStatus.ROUND_END;
             }
         }
-        return ApplicationStatus.GAME_SUCCESS;
+        return ApplicationStatus.APPLICATION_EXIT;
     }
 
     private ApplicationStatus endRound() {
-        return null;
+        return ApplicationStatus.APPLICATION_EXIT;
     }
 
     private enum ApplicationStatus {
