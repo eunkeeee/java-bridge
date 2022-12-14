@@ -47,6 +47,7 @@ public class MainController {
         gameGuide.put(ApplicationStatus.ROUND_END, this::endRound);
         gameGuide.put(ApplicationStatus.GAME_SUCCESS, this::handleGameSuccess);
         gameGuide.put(ApplicationStatus.RESTART_GAME, this::restartGame);
+        gameGuide.put(ApplicationStatus.QUIT_GAME, this::quitGame);
     }
 
 
@@ -70,8 +71,7 @@ public class MainController {
             // ROUND_START
             BridgeSign bridgeSign = inputView.readMoving();
             gameVariable.updateDiagram(bridgeSign, Bridge.getRoundStatus(index, bridgeSign));
-            gameVariable.printDiagrams();
-
+            outputView.printDiagrams(gameVariable.getDiagrams());
             if (Bridge.isRoundEnd(index, bridgeSign)) {
                 // ROUND_END
                 return ApplicationStatus.ROUND_END;
@@ -87,8 +87,7 @@ public class MainController {
     private ApplicationStatus endRound() {
         RestartCommand restartCommand = inputView.readGameCommand();
         if (restartCommand.isQuitGame()) {
-            // 결과 출력
-            return ApplicationStatus.APPLICATION_EXIT;
+            return ApplicationStatus.QUIT_GAME;
         }
         return ApplicationStatus.RESTART_GAME;
     }
@@ -99,7 +98,14 @@ public class MainController {
         return ApplicationStatus.GAME_START;
     }
 
+    private ApplicationStatus quitGame() {
+        outputView.printResult(gameVariable);
+        return ApplicationStatus.APPLICATION_EXIT;
+    }
+
     private ApplicationStatus handleGameSuccess() {
+        gameVariable.setIsSuccessInGame();
+        outputView.printResult(gameVariable);
         return ApplicationStatus.APPLICATION_EXIT;
     }
 

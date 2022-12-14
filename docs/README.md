@@ -47,10 +47,10 @@
 
 #### Q 선택 시 `QUIT_GAME`
 
-- [ ] 최종 게임 결과 출력
-- [ ] `APPLICATION_EXIT`
+- [x] 최종 게임 결과 출력
+- [x] `APPLICATION_EXIT`
 
 ### 게임에 성공한 경우 `GAME_SUCCESS`
 
-- [ ] 최종 게임 결과 출력
-- [ ] `APPLICATION_EXIT`
+- [x] 최종 게임 결과 출력
+- [x] `APPLICATION_EXIT`

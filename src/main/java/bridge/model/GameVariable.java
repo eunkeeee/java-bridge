@@ -19,8 +19,8 @@ public class GameVariable {
         diagram.updateDiagram(bridgeSign, roundStatus);
     }
 
-    public void printDiagrams() {
-        System.out.println(diagram);
+    public String getDiagrams() {
+        return diagram.toString();
     }
 
     public void setIsSuccessInGame() {
@@ -29,5 +29,13 @@ public class GameVariable {
 
     public void resetDiagrams() {
         diagram = new Diagram();
+    }
+
+    public boolean getIsSuccessInGame() {
+        return isSuccessInGame;
+    }
+
+    public int getAttempts() {
+        return attempts;
     }
 }

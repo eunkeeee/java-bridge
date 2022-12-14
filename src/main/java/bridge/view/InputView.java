@@ -51,8 +51,13 @@ public class InputView {
      * 사용자가 게임을 다시 시도할지 종료할지 여부를 입력받는다.
      */
     public RestartCommand readGameCommand() {
-        System.out.println(Message.INPUT_RESTART_COMMAND.message);
-        return RestartCommand.from(Util.removeSpace(Console.readLine()));
+        try {
+            System.out.println(Message.INPUT_RESTART_COMMAND.message);
+            return RestartCommand.from(Util.removeSpace(Console.readLine()));
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
+            return readGameCommand();
+        }
     }
 
     private enum Message {
