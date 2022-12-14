@@ -1,6 +1,6 @@
 package bridge.view;
 
-import bridge.model.GameVariable;
+import bridge.model.GameRepository;
 
 /**
  * 사용자에게 게임 진행 상황과 결과를 출력하는 역할을 한다.
@@ -36,11 +36,11 @@ public class OutputView {
      * <p>
      * 출력을 위해 필요한 메서드의 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
      */
-    public void printResult(GameVariable gameVariable) {
+    public void printResult() {
         System.out.printf(Message.OUTPUT_FINAL_RESULT.message,
-                gameVariable.getDiagrams(),
-                Success.returnDisplay(gameVariable.getIsSuccessInGame()),
-                gameVariable.getAttempts());
+                GameRepository.getDiagrams(),
+                Success.returnDisplay(GameRepository.getIsSuccessInGame()),
+                GameRepository.getAttempts());
     }
 
     public void printDiagrams(String diagrams) {

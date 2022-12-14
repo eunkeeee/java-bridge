@@ -4,8 +4,9 @@ import bridge.BridgeMaker;
 import bridge.BridgeRandomNumberGenerator;
 import bridge.model.ApplicationStatus;
 import bridge.model.Bridge;
+import bridge.model.BridgeGame;
 import bridge.model.BridgeSign;
-import bridge.model.GameVariable;
+import bridge.model.GameRepository;
 import bridge.model.RestartCommand;
 import bridge.view.InputView;
 import bridge.view.OutputView;
@@ -17,7 +18,7 @@ public class MainController {
     private final InputView inputView;
     private final OutputView outputView;
     private final Map<ApplicationStatus, Supplier<ApplicationStatus>> gameGuide;
-    private GameVariable gameVariable;
+    private BridgeGame bridgeGame;
 
     public MainController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
@@ -62,26 +63,19 @@ public class MainController {
     }
 
     private ApplicationStatus initializeGame() {
-        gameVariable = new GameVariable();
+        bridgeGame = new BridgeGame();
         return ApplicationStatus.GAME_START;
     }
 
     private ApplicationStatus startGame() {
         for (int index = 0; index < Bridge.size(); index++) {
-
-            // ROUND_START
             BridgeSign bridgeSign = inputView.readMoving();
-            gameVariable.updateDiagram(bridgeSign, Bridge.getRoundStatus(index, bridgeSign));
-            outputView.printDiagrams(gameVariable.getDiagrams());
+            bridgeGame.move(index, bridgeSign);
+            outputView.printDiagrams(GameRepository.getDiagrams());
             if (Bridge.isRoundEnd(index, bridgeSign)) {
-                // ROUND_END
                 return ApplicationStatus.ROUND_END;
             }
-
-            // ROUND_CONTINUE
-
         }
-
         return ApplicationStatus.GAME_SUCCESS;
     }
 
@@ -94,21 +88,18 @@ public class MainController {
     }
 
     private ApplicationStatus restartGame() {
-        gameVariable.addAttempts();
-        gameVariable.resetDiagrams();
-        return ApplicationStatus.GAME_START;
+        return bridgeGame.retry();
     }
 
     private ApplicationStatus quitGame() {
-        outputView.printResult(gameVariable);
+        outputView.printResult();
         return ApplicationStatus.APPLICATION_EXIT;
     }
 
     private ApplicationStatus handleGameSuccess() {
-        gameVariable.setIsSuccessInGame();
-        outputView.printResult(gameVariable);
+        GameRepository.setIsSuccessInGame();
+        outputView.printResult();
         return ApplicationStatus.APPLICATION_EXIT;
     }
-
 
 }
