@@ -1,5 +1,6 @@
 package bridge.view;
 
+import bridge.model.BridgeSign;
 import bridge.util.Util;
 import bridge.util.validator.BridgeSizeValidator;
 import camp.nextstep.edu.missionutils.Console;
@@ -35,8 +36,14 @@ public class InputView {
     /**
      * 사용자가 이동할 칸을 입력받는다.
      */
-    public String readMoving() {
-        return null;
+    public BridgeSign readMoving() {
+        try {
+            System.out.println(Message.INPUT_MOVING.message);
+            return BridgeSign.from(Util.removeSpace(Console.readLine()));
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
+            return readMoving();
+        }
     }
 
     /**
@@ -47,7 +54,8 @@ public class InputView {
     }
 
     private enum Message {
-        INPUT_BRIDGE_SIZE("다리의 길이를 입력해주세요.");
+        INPUT_BRIDGE_SIZE("다리의 길이를 입력해주세요."),
+        INPUT_MOVING("이동할 칸을 선택해주세요. (위: U, 아래: D)");
 
         private final String message;
 

@@ -3,6 +3,7 @@ package bridge.controller;
 import bridge.BridgeMaker;
 import bridge.BridgeRandomNumberGenerator;
 import bridge.model.Bridge;
+import bridge.model.BridgeSign;
 import bridge.model.GameVariable;
 import bridge.view.InputView;
 import bridge.view.OutputView;
@@ -42,13 +43,16 @@ public class MainController {
         gameGuide.put(ApplicationStatus.CREATE_BRIDGE, this::createBridge);
         gameGuide.put(ApplicationStatus.INITIALIZE_GAME, this::initializeGame);
         gameGuide.put(ApplicationStatus.GAME_START, this::startGame);
+        gameGuide.put(ApplicationStatus.ROUND_END, this::endRound);
     }
+
 
     private ApplicationStatus createBridge() {
         outputView.printGameStart();
         int bridgeSize = inputView.readBridgeSize();
         BridgeMaker bridgeMaker = new BridgeMaker(new BridgeRandomNumberGenerator());
         Bridge.setBridge(bridgeMaker.makeBridge(bridgeSize));
+        System.out.println(Bridge.bridge());
         return ApplicationStatus.INITIALIZE_GAME;
     }
 
@@ -58,10 +62,18 @@ public class MainController {
     }
 
     private ApplicationStatus startGame() {
-
-        return ApplicationStatus.APPLICATION_EXIT;
+        for (int index = 0; index < Bridge.size(); index++) {
+            BridgeSign moving = inputView.readMoving();
+            if (Bridge.isRoundEnd(index, moving)) {
+                return ApplicationStatus.ROUND_END;
+            }
+        }
+        return ApplicationStatus.GAME_SUCCESS;
     }
 
+    private ApplicationStatus endRound() {
+        return null;
+    }
 
     private enum ApplicationStatus {
         CREATE_BRIDGE,
