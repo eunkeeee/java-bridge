@@ -19,6 +19,7 @@ public class MainController {
     private final OutputView outputView;
     private final Map<ApplicationStatus, Supplier<ApplicationStatus>> gameGuide;
     private BridgeGame bridgeGame;
+    private GameRepository gameRepository;
 
     public MainController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
@@ -63,7 +64,8 @@ public class MainController {
     }
 
     private ApplicationStatus initializeGame() {
-        bridgeGame = new BridgeGame();
+        gameRepository = new GameRepository();
+        bridgeGame = new BridgeGame(gameRepository);
         return ApplicationStatus.GAME_START;
     }
 
@@ -71,7 +73,7 @@ public class MainController {
         for (int index = 0; index < Bridge.size(); index++) {
             BridgeSign bridgeSign = inputView.readMoving();
             bridgeGame.move(index, bridgeSign);
-            outputView.printDiagrams(GameRepository.getDiagrams());
+            outputView.printDiagrams(gameRepository.getDiagrams());
             if (Bridge.isRoundEnd(index, bridgeSign)) {
                 return ApplicationStatus.ROUND_END;
             }
@@ -92,13 +94,13 @@ public class MainController {
     }
 
     private ApplicationStatus quitGame() {
-        outputView.printResult();
+        outputView.printResult(gameRepository);
         return ApplicationStatus.APPLICATION_EXIT;
     }
 
     private ApplicationStatus handleGameSuccess() {
-        GameRepository.setIsSuccessInGame();
-        outputView.printResult();
+        gameRepository.setIsSuccessInGame();
+        outputView.printResult(gameRepository);
         return ApplicationStatus.APPLICATION_EXIT;
     }
 

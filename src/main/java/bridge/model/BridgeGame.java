@@ -5,6 +5,12 @@ package bridge.model;
  */
 public class BridgeGame {
 
+    private final GameRepository gameRepository;
+
+    public BridgeGame(GameRepository gameRepository) {
+        this.gameRepository = gameRepository;
+    }
+
     /**
      * 사용자가 칸을 이동할 때 사용하는 메서드
      * <p>
@@ -12,7 +18,7 @@ public class BridgeGame {
      */
     public void move(int index, BridgeSign bridgeSign) {
         RoundStatus roundStatus = Bridge.getRoundStatus(index, bridgeSign);
-        GameRepository.updateDiagram(bridgeSign, roundStatus);
+        gameRepository.updateDiagram(bridgeSign, roundStatus);
     }
 
     /**
@@ -23,8 +29,8 @@ public class BridgeGame {
      * @return
      */
     public ApplicationStatus retry() {
-        GameRepository.addAttempts();
-        GameRepository.resetDiagrams();
+        gameRepository.addAttempts();
+        gameRepository.resetDiagrams();
         return ApplicationStatus.GAME_START;
     }
 }

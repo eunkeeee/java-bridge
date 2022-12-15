@@ -36,11 +36,11 @@ public class OutputView {
      * <p>
      * 출력을 위해 필요한 메서드의 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
      */
-    public void printResult() {
+    public void printResult(GameRepository gameRepository) {
         System.out.printf(Message.OUTPUT_FINAL_RESULT.message,
-                GameRepository.getDiagrams(),
-                Success.returnDisplay(GameRepository.getIsSuccessInGame()),
-                GameRepository.getAttempts());
+                gameRepository.getDiagrams(),
+                Success.returnDisplay(gameRepository.getIsSuccessInGame()),
+                gameRepository.getAttempts());
     }
 
     public void printDiagrams(String diagrams) {

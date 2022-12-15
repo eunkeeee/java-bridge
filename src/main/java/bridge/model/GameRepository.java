@@ -1,38 +1,41 @@
 package bridge.model;
 
 public class GameRepository {
-    private static int attempts = 1;
-    private static boolean isSuccessInGame = false;
-    private static Diagram diagram = new Diagram();
+    private int attempts = 1;
+    private boolean isSuccessInGame = false;
+    private Diagram diagram = new Diagram();
 
-    private GameRepository() {
+    public GameRepository() {
+        this.attempts = 1;
+        this.isSuccessInGame = false;
+        this.diagram = new Diagram();
     }
 
-    public static void addAttempts() {
+    public void addAttempts() {
         attempts++;
     }
 
-    public static void updateDiagram(BridgeSign bridgeSign, RoundStatus roundStatus) {
+    public void updateDiagram(BridgeSign bridgeSign, RoundStatus roundStatus) {
         diagram.updateDiagram(bridgeSign, roundStatus);
     }
 
-    public static String getDiagrams() {
+    public String getDiagrams() {
         return diagram.toString();
     }
 
-    public static void setIsSuccessInGame() {
+    public void setIsSuccessInGame() {
         isSuccessInGame = true;
     }
 
-    public static void resetDiagrams() {
+    public void resetDiagrams() {
         diagram = new Diagram();
     }
 
-    public static boolean getIsSuccessInGame() {
+    public boolean getIsSuccessInGame() {
         return isSuccessInGame;
     }
 
-    public static int getAttempts() {
+    public int getAttempts() {
         return attempts;
     }
 }
